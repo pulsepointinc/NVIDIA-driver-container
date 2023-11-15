@@ -101,7 +101,7 @@ _install_prerequisites() (
     touch /lib/modules/${KERNEL_VERSION}/modules.builtin
 
     depmod ${KERNEL_VERSION}
-
+    ls -al /lib/modules/${KERNEL_VERSION}/vmlinuz
     echo "Generating Linux kernel version string..."
     if [ "$TARGETARCH" = "arm64" ]; then
         gunzip -c /lib/modules/${KERNEL_VERSION}/vmlinuz | strings | grep -E '^Linux version' | sed 's/^\(.*\)\s\+(.*)$/\1/' > version
