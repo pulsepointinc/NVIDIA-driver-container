@@ -441,11 +441,11 @@ _install_driver() {
     if [ "${ACCEPT_LICENSE}" = "yes" ]; then
         install_args+=("--accept-license")
     fi
-    # IGNORE_CC_MISMATCH=1 nvidia-installer --kernel-module-only --no-drm --ui=none --no-nouveau-check -m=${KERNEL_TYPE} ${install_args[@]+"${install_args[@]}"}
+    IGNORE_CC_MISMATCH=1 nvidia-installer --kernel-module-only --no-drm --ui=none --no-nouveau-check -m=${KERNEL_TYPE} ${install_args[@]+"${install_args[@]}"} --kernel-source-path /usr/src/kernels/${KERNEL_VERSION}
     #sleep 5000
-    IGNORE_CC_MISMATCH=1 nvidia-installer --kernel-module-only --no-drm --ui=none --no-nouveau-check \
-        --no-cc-version-check --proc-mount-point /lib/modules/${KERNEL_VERSION}/proc ${install_args[@]+"${install_args[@]}"} \
-        --kernel-source-path /usr/src/kernels/${KERNEL_VERSION}
+    #IGNORE_CC_MISMATCH=1 nvidia-installer --kernel-module-only --no-drm --ui=none --no-nouveau-check \
+    #    --no-cc-version-check --proc-mount-point /lib/modules/${KERNEL_VERSION}/proc ${install_args[@]+"${install_args[@]}"} \
+    #    --kernel-source-path /usr/src/kernels/${KERNEL_VERSION}
 
     # May need to add no-cc-check for Rhel, otherwise it complains about cc missing in path
     # /proc/version and lib/modules/KERNEL_VERSION/proc are different, by default installer looks at /proc/ so, added the proc-mount-point

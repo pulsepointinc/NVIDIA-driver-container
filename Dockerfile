@@ -4,9 +4,16 @@ FROM nvcr.io/nvidia/driver:${NVIDIA_DRIVER_VERSION}-rhel${OS_RELEASE}
 
 ARG KERNEL_VERSION
 ARG RPM_BASE_URL
-RUN dnf install -y perl-interpreter \
+RUN  dnf mark install gcc binutils cpp glibc-devel glibc-headers isl libgomp libmpc libxcrypt-devel && \
+  dnf remove -y kernel-headers.x86_64 && \
+  rpm -i -f https://dl.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/Packages/k/kernel-headers-${KERNEL_VERSION}.rpm && \
+  dnf install -y perl-interpreter \
         systemd-udev.x86_64 \
-        dracut
+        dracut \
+        gcc \
+        glibc-devel \
+        glibc-headers \
+        libxcrypt-devel
 
 RUN rpm -i ${RPM_BASE_URL}/z/zlib-devel-1.2.11-21.el8_7.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/e/elfutils-libelf-devel-0.188-3.el8.x86_64.rpm && \
