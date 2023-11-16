@@ -1,4 +1,6 @@
 #!/bin/bash
+NVIDIA_DRIVER_VERSION="${NVIDIA_DRIVER_VERSION:-535.104.12}"
+CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-container-registry.siomporas.com}"
 
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
    && helm repo update
