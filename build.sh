@@ -1,4 +1,7 @@
 #!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd $SCRIPT_DIR
+
 KERNEL_VERSION="${KERNEL_VERSION:-$(uname -r)}"
 NVIDIA_DRIVER_VERSION="${NVIDIA_DRIVER_VERSION:-535.104.12}"
 CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-container-registry.siomporas.com}"

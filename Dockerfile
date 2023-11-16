@@ -12,7 +12,8 @@ RUN rpm -i ${RPM_BASE_URL}/z/zlib-devel-1.2.11-21.el8_7.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/e/elfutils-libelf-devel-0.188-3.el8.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/k/kernel-devel-${KERNEL_VERSION}.rpm && \
     rpm -i ${RPM_BASE_URL}/l/linux-firmware-20230404-117.git2e92a49f.el8_8.noarch.rpm && \
-    rpm -i ${RPM_BASE_URL}/k/kernel-core-${KERNEL_VERSION}.rpm
+    rpm -i ${RPM_BASE_URL}/k/kernel-core-${KERNEL_VERSION}.rpm && \
+    echo "${KERNEL_VERSION}" > /kernel-version
 
 COPY nvidia-driver /usr/local/bin
 

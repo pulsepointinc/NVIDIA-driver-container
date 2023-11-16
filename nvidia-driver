@@ -74,7 +74,7 @@ _resolve_rhel_version() {
 # Resolve the kernel version to the form major.minor.patch-revision.
 _resolve_kernel_version() {
     echo "Resolving Linux kernel version..."
-    local version=$(yum -q list installed --showduplicates kernel-headers | awk -v arch=$(uname -m) 'NR>1 {print $2"."arch}' | tac | grep -E -m1 "^${KERNEL_VERSION/latest/.*}")
+    local version="$(cat /kernel-version)"
 
     if [ -z "${version}" ]; then
         echo "Could not resolve Linux kernel version" >&2
@@ -104,6 +104,8 @@ _install_prerequisites() (
     if [[ ! -f "/lib/modules/${KERNEL_VERSION}/vmlinuz" ]]; then
         echo "/lib/modules/${KERNEL_VERSION}/vmlinuz not found!!! pausing for 5000 seconds"
         sleep 5000
+    else
+        echo "/lib/modules/${KERNEL_VERSION}/vmlinuz exists, continuing"
     fi
     
     echo "Generating Linux kernel version string..."
@@ -744,7 +746,7 @@ fi
 eval set -- "${options}"
 
 ACCEPT_LICENSE=""
-KERNEL_VERSION=$(uname -r)
+KERNEL_VERSION="$(cat /kernel-version)"
 PRIVATE_KEY=""
 PACKAGE_TAG=""
 

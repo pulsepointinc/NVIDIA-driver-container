@@ -1,2 +1,5 @@
 #!/bin/bash
+
+echo "Please log onto the GPU hosts and run 'cri rmi --prune' to clear the old images"
+
 helm uninstall -n gpu-operator $(helm ls -n gpu-operator | cut -f 1 | tail -n 1)
