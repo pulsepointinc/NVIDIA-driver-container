@@ -16,6 +16,7 @@ NVIDIA_PEERMEM_MODULE_PARAMS=()
 TARGETARCH=${TARGETARCH:?"Missing TARGETARCH env"}
 USE_HOST_MOFED="${USE_HOST_MOFED:-false}"
 DNF_RELEASEVER=${DNF_RELEASEVER:-""}
+RPM_BASE_URL="$(cat /rpm-base-url)"
 
 OPEN_KERNEL_MODULES_ENABLED=${OPEN_KERNEL_MODULES_ENABLED:-false}
 [[ "${OPEN_KERNEL_MODULES_ENABLED}" == "true" ]] && KERNEL_TYPE=kernel-open || KERNEL_TYPE=kernel
@@ -74,7 +75,7 @@ _resolve_rhel_version() {
 # Resolve the kernel version to the form major.minor.patch-revision.
 _resolve_kernel_version() {
     echo "Resolving Linux kernel version..."
-    local version="$(cat /kernel-version)"
+    local version="$(uname -r)"
 
     if [ -z "${version}" ]; then
         echo "Could not resolve Linux kernel version" >&2
@@ -88,6 +89,22 @@ _resolve_kernel_version() {
 # Install the kernel modules header/builtin/order files and generate the kernel version string.
 _install_prerequisites() (
     local tmp_dir=$(mktemp -d)
+
+    dnf remove -y kernel-headers.x86_64 && \
+    rpm -i ${RPM_BASE_URL}/k/kernel-headers-${KERNEL_VERSION}.rpm && \
+    dnf install -y perl-interpreter \
+            systemd-udev.x86_64 \
+            dracut \
+            gcc \
+            glibc-devel \
+            glibc-headers \
+            libxcrypt-devel
+
+    rpm -i ${RPM_BASE_URL}/z/zlib-devel-1.2.11-21.el8_7.x86_64.rpm && \
+    rpm -i ${RPM_BASE_URL}/e/elfutils-libelf-devel-0.188-3.el8.x86_64.rpm && \
+    rpm -i ${RPM_BASE_URL}/k/kernel-devel-${KERNEL_VERSION}.rpm && \
+    rpm -i ${RPM_BASE_URL}/l/linux-firmware-20230404-117.git2e92a49f.el8_8.noarch.rpm && \
+    rpm -i ${RPM_BASE_URL}/k/kernel-core-${KERNEL_VERSION}.rpm && 
 
     trap "rm -rf ${tmp_dir}" EXIT
     cd ${tmp_dir}
@@ -751,7 +768,7 @@ fi
 eval set -- "${options}"
 
 ACCEPT_LICENSE=""
-KERNEL_VERSION="$(cat /kernel-version)"
+KERNEL_VERSION="$(uname -r)"
 PRIVATE_KEY=""
 PACKAGE_TAG=""
 

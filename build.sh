@@ -14,7 +14,6 @@ echo "Building NVIDIA Driver image version $NVIDIA_DRIVER_VERSION for ${OS_NAME}
 
 docker build -t "$CONTAINER_REGISTRY/nvidia/driver:$NVIDIA_DRIVER_VERSION-${OS_NAME}${OS_RELEASE}" \
      --build-arg "NVIDIA_DRIVER_VERSION=$NVIDIA_DRIVER_VERSION" \
-     --build-arg "KERNEL_VERSION=$KERNEL_VERSION" \
      --build-arg "RPM_BASE_URL=$RPM_BASE_URL" \
      --build-arg "OS_RELEASE=$OS_RELEASE" \
      -f Dockerfile .

@@ -45,10 +45,4 @@ helm install --generate-name \
      --set driver.repository=$CONTAINER_REGISTRY/nvidia \
      --set driver.version=$NVIDIA_DRIVER_VERSION
 ```
-
-NOTE - you will need to rebuild this image; clear container image cache for this image on GPU nodes; and redeploy the GPU 
-operator any time you upgrade the kernel on your GPU hosts. This is a solvable problem with additional hacks to `_install_prerequisites`
-to basically replicate the Dockerfile initial build step using RPMs from EL clone repositories instead of DNF to install
-the kernel.
-
 Inspired by [this](https://github.com/awslife/nvidia-driver) (which no longer works).
