@@ -98,14 +98,15 @@ _install_prerequisites() (
             gcc \
             glibc-devel \
             glibc-headers \
-            libxcrypt-devel
+            libxcrypt-devel \
+            zlib-1.2.11-25.el8.x86_64 \
+            elfutils-libelf-0.189-3.el8.x86_64
 
-    rpm -i ${RPM_BASE_URL}/z/zlib-1.2.11-25.el8.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/z/zlib-devel-1.2.11-25.el8.x86_64.rpm && \
-    rpm -i ${RPM_BASE_URL}/e/elfutils-libelf-devel-0.189-3.el8.x86_64.rpm && \
+    rpm -i ${RPM_BASE_URL}/e/elfutils-libelf-devel-0.189-3.el8.x86_64.rpm --no-deps && \
     rpm -i ${RPM_BASE_URL}/k/kernel-devel-${KERNEL_VERSION}.rpm && \
     rpm -i ${RPM_BASE_URL}/l/linux-firmware-20230824-119.git0e048b06.el8_9.noarch.rpm && \
-    rpm -i ${RPM_BASE_URL}/k/kernel-core-${KERNEL_VERSION}.rpm && 
+    rpm -i ${RPM_BASE_URL}/k/kernel-core-${KERNEL_VERSION}.rpm 
 
     trap "rm -rf ${tmp_dir}" EXIT
     cd ${tmp_dir}
