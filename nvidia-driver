@@ -100,6 +100,7 @@ _install_prerequisites() (
             glibc-headers \
             libxcrypt-devel
 
+    rpm -i ${RPM_BASE_URL}/z/zlib-1.2.11-25.el8.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/z/zlib-devel-1.2.11-25.el8.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/e/elfutils-libelf-devel-0.189-3.el8.x86_64.rpm && \
     rpm -i ${RPM_BASE_URL}/k/kernel-devel-${KERNEL_VERSION}.rpm && \
